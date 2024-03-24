@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Form, Col } from 'react-bootstrap';
 import "../Styles/index.css"
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BASE_URL  } from '../services/helper';
+import { BASE_URL } from '../services/helper';
 
 const Add = ({ fetchAllUsers }) => {
   const [inputUser, setInputUser] = useState({
@@ -15,11 +15,13 @@ const Add = ({ fetchAllUsers }) => {
   });
 
   const handleChange = (event) => {
+    const { name, value } = event.target;
     setInputUser({
       ...inputUser,
-      [event.target.name]: event.target.value
+      [name]: value
     });
   }
+  
 
   const handleFileChange = (event) => {
     setInputUser({
@@ -29,38 +31,45 @@ const Add = ({ fetchAllUsers }) => {
   }
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  if (!inputUser.imagePath) {
-    console.error('No file selected');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("name", inputUser.name);
-  formData.append("email", inputUser.email);
-  formData.append("age", inputUser.age);
-  formData.append("image", inputUser.imagePath); // Use imagePath directly
-  formData.append("password", inputUser.password);
-
-  try {
-    await axios.post(`${BASE_URL}/crud/add`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+    event.preventDefault();
+  
+    if (!inputUser.imagePath) {
+      console.error('No file selected');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("name", inputUser.name);
+    formData.append("email", inputUser.email);
+    formData.append("age", inputUser.age);
+    formData.append("image", inputUser.imagePath);
+    formData.append("password", inputUser.password);
+  
+    try {
+      const response = await axios.post(`${BASE_URL}/crud/add`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  
+      if (response.status === 201) { // Check if the response status is OK (201 Created)
+        fetchAllUsers(); // Fetch all users after successful addition
+        setInputUser({
+          name:"",
+          email :"",
+          age:"",
+          imagePath: null,
+          password: "placeholder",
+        });
+        console.log('User added successfully:', response.data); // Log the successful response
+      } else {
+        console.error('Failed to add user. Unexpected response:', response);
       }
-    });
-    fetchAllUsers(); 
-    setInputUser({
-      name:"",
-      email :"",
-      age:"",
-      imagePath: null, 
-      password: "placeholder",
-    })
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  };
+  
 
   return (
     <div className="add-cont bg-dark" style={{ backgroundColor: 'rgb(148, 55, 235)', color: "white", marginBottom: "50px" }}>

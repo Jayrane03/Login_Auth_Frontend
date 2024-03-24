@@ -28,9 +28,9 @@ const Tab = () => {
     }
   };
 
-  const getImg = (imagePath) => {
-    return `${BASE_URL}/uploads/${imagePath || 'default.jpg'}`; 
-  };
+  // const getImg = (imagePath) => {
+  //   return `${BASE_URL}/uploads/${imagePath || 'default.jpg'}`; 
+  // };
 
   useEffect(() => {
     fetchAllUsers();
