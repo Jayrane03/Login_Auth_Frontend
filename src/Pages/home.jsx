@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../Styles/pages.css"
+import { BASE_URL } from '../services/helper';
 const Home = () => {
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Form, Col, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { BASE_URL } from '../services/helper';
 
 const Update = () => {
   const [inputUser, setInputUser] = useState({
@@ -15,7 +16,7 @@ const Update = () => {
 
   const fetchUpdate = useCallback(async () => {
     try {
-      const res = await axios.put(`http://localhost:5001/crud/update/${id}`);
+      const res = await axios.put(`${BASE_URL}/crud/update/${id}`);
       setInputUser({
         name: res.data.name,
         email: res.data.email,
