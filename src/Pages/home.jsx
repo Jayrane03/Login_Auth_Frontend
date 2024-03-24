@@ -12,7 +12,7 @@ const Home = () => {
                     throw new Error('Token not found');
                 }
         
-                const req = await fetch('http://localhost:5001/api/home', {
+                const req = await fetch(`${BASE_URL}/api/home`, {
                     headers: {
                         'x-access-token': token,
                     }

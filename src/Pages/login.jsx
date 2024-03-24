@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import loginImg from "/Images/login_1.jpg";
 import '../Styles/pages.css';
+import { BASE_URL } from '../services/helper';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const LoginForm = () => {
     setError('');
   
     try {
-      const response = await fetch('http://localhost:5001/api/login', {
+      const response = await fetch(`${BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
